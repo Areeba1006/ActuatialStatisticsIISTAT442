@@ -32,3 +32,42 @@ ci_upper <- pmin(ecdf_values + 1.96 * se, 1)  # Upper bound
 
 ci_lower
 ci_upper
+
+
+### Ogive functions
+
+# Install and load the actuar package
+install.packages("actuar")
+library(actuar)
+
+# Create grouped data
+x <- grouped.data(
+  Group = c(0, 7500, 17500, 32500, 67500, 125000, 300000, 500000),
+  Line1 = c(99, 42, 29, 28, 17, 9, 3)
+)
+
+# Display grouped data
+x
+
+# Compute the Ogive (ECDF for grouped data)
+fn <- ogive(x)
+
+# Display the ogive
+fn
+# Output: Ogive for grouped data
+# Call: ogive(x = x)
+# x =      0,   7500,  17500,  ...,  3e+05,  5e+05
+# F(x) =      0, 0.43612, 0.62115,  ..., 0.98678,      1
+
+# Extract knots (data points where ECDF changes)
+knots(fn)
+
+# Evaluate the Ogive at specific points
+fn(3400)   # Output: 0.1977093
+fn(100000) # Output: 0.9145758
+
+# Create a histogram
+z <- hist(x)
+
+# Display histogram details
+z
